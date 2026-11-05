@@ -34,21 +34,6 @@ __temp*
 *.sln
 *.sw?
 
-# Playwright
-/playwright/.cache/
-
-# Model weights and layered editor files stay out of Git until the storage decision (AGENTS.md, Pipeline rules)
-**/*.safetensors
-**/*.ckpt
-**/*.pt
-**/*.pth
-**/*.onnx
-**/*.gguf
-**/*.psd
-**/*.psb
-**/*.ora
-**/*.kra
-
 # Personal agent settings and instructions
 CLAUDE.local.md
 .claude/settings.local.json
