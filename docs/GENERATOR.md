@@ -28,7 +28,13 @@ A card is a text file and an image file with the same name in [`assets/`](../ass
 A text file without an image, or an image without a text, is not a card. The program shows a warning for each such file and continues.
 The program stops with an error when two files of the same type have the same card name, a text is empty, or no complete card exists.
 
-To add a card, add the text file and the image file with the same name. Then run `npm test` and `npm run readme:dry-run`.
+Use PNG for card images, so that all cards have the same format.
+
+To add a card:
+
+1. Add the text file and the PNG image with the same name.
+2. Add the card to [LIST.md](../LIST.md) by hand. This page shows all cards with their texts for a manual check.
+3. Run `npm test` and `npm run readme:dry-run`.
 
 ## Template
 
@@ -45,6 +51,8 @@ A placeholder is an HTML comment, so the template stays valid Markdown.
 The program rejects an unknown `tarot:` placeholder and a wrong number of occurrences.
 All placeholders are replaced in one pass. A placeholder in a card text is not replaced.
 All other template text stays the same in `README.md`.
+
+The `<img>` element sets only the width (300 pixels). The browser calculates the height from the image proportions, so that images of different sizes have the same width and are not distorted.
 
 The image link has a random cache key in the query string, for example `assets/The%20Fool.png?v=3f9a1c0e7b2d4a61`.
 Each run makes a new key, so that browsers and the GitHub image proxy show the new image and do not use an old copy.
