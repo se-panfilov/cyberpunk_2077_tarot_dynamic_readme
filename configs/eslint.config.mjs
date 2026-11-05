@@ -1,4 +1,3 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { builtinModules } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
@@ -10,25 +9,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 const repositoryRoot = fileURLToPath(new URL('..', import.meta.url));
-const packagesDirectory = new URL('../packages/', import.meta.url);
-// Package directories in packages/. Each package gets its own alias rules. An empty list is valid before the first package.
-const packages = existsSync(packagesDirectory)
-  ? readdirSync(packagesDirectory, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
-      .map((entry) => entry.name)
-      .sort()
-  : [];
 const cyrillic = '[\\u0400-\\u04FF]';
-
-// The npm package name of a package directory. The name scope is an open decision (D21), so it is read from package.json.
-function packageName(dir) {
-  try {
-    const name = JSON.parse(readFileSync(new URL(`${dir}/package.json`, packagesDirectory), 'utf8')).name;
-    return typeof name === 'string' && name !== '' ? name : undefined;
-  } catch {
-    return undefined;
-  }
-}
 
 const syntaxRestrictions = [
   { selector: "MethodDefinition[kind='set']", message: 'Use an explicit method instead of a property setter.' },
@@ -68,32 +49,8 @@ const builtinPaths = [
   }))
 ];
 
-// One option object for no-restricted-imports, because a later configuration block replaces the rule options.
-function restrictedImports({ dir, source = false } = {}) {
-  const patterns = [];
-  if (dir) {
-    const others = packages.filter((name) => name !== dir);
-    patterns.push({ group: ['@/*', '@/'], message: `Use the @${dir}/* package alias. A generic @ alias is not permitted.` });
-    if (others.length) {
-      patterns.push({
-        group: others.flatMap((name) => [`@${name}`, `@${name}/*`, `../../${name}/**`, `**/packages/${name}/**`]),
-        message: 'Do not import the source of another package. Declare a workspace dependency and use the package exports.'
-      });
-    }
-  }
-  if (dir && source) {
-    const name = packageName(dir);
-    const paths = [...builtinPaths];
-    const groups = ['./*', '../*'];
-    if (name) {
-      paths.push({ name, message: `Use the @${dir}/* package alias.` });
-      groups.push(`${name}/*`);
-    }
-    patterns.push({ group: groups, message: `Use the @${dir}/* package alias for runtime modules.` });
-    return ['error', { paths, patterns }];
-  }
-  return ['error', { paths: builtinPaths, patterns }];
-}
+// Runtime source modules use the @tarot/* alias, not relative imports.
+const sourceImports = ['error', { paths: builtinPaths, patterns: [{ group: ['./*', '../*', '@/*', '@/'], message: 'Use the @tarot/* alias for runtime modules.' }] }];
 
 // Report Cyrillic text in comments. Comments and documentation are in English.
 const englishComments = {
@@ -122,7 +79,7 @@ export default defineConfig([
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'no-restricted-syntax': ['error', ...syntaxRestrictions],
-      'no-restricted-imports': restrictedImports(),
+      'no-restricted-imports': ['error', { paths: builtinPaths }],
       'project/english-comments': 'error'
     }
   },
@@ -137,7 +94,7 @@ export default defineConfig([
     }
   },
   {
-    files: ['packages/*/**/*.ts'],
+    files: ['src/**/*.ts', 'test/**/*.ts'],
     extends: [tseslint.configs.recommendedTypeChecked],
     languageOptions: {
       parserOptions: { projectService: true, tsconfigRootDir: repositoryRoot }
@@ -149,19 +106,16 @@ export default defineConfig([
     }
   },
   {
-    files: ['packages/*/src/**/*.ts'],
+    files: ['src/**/*.ts'],
     extends: [tseslint.configs.strictTypeChecked],
     rules: {
+      'no-restricted-imports': sourceImports,
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
-      // These rules trust static types over runtime values. Keep runtime checks of untrusted input, platform constants, and TTY state.
+      // These rules trust static types over runtime values. Keep runtime checks of untrusted input and platform state.
       '@typescript-eslint/no-unnecessary-condition': 'off',
       '@typescript-eslint/no-unnecessary-type-conversion': 'off',
       '@typescript-eslint/no-useless-default-assignment': 'off'
     }
   },
-  ...packages.flatMap((dir) => [
-    { files: [`packages/${dir}/**/*.{js,mjs,ts}`], rules: { 'no-restricted-imports': restrictedImports({ dir }) } },
-    { files: [`packages/${dir}/src/**/*.ts`], rules: { 'no-restricted-imports': restrictedImports({ dir, source: true }) } }
-  ]),
   prettier
 ]);
