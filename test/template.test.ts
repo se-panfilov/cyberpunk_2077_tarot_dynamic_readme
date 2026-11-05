@@ -30,11 +30,11 @@ describe('templateProblems', () => {
 
 describe('renderTemplate', () => {
   it('replaces each placeholder and keeps the text around them', () => {
-    expect(renderTemplate(validTemplate, card, '5 November 2026')).toBe(`# Top text
+    expect(renderTemplate(validTemplate, card, { date: '5 November 2026', cacheKey: 'abc123' })).toBe(`# Top text
 
 Date: 5 November 2026
 
-<img src="assets/The%20Fool.png" alt="The Fool" width="300">
+<img src="assets/The%20Fool.png?v=abc123" alt="The Fool" width="300">
 
 ## The Fool
 
@@ -48,19 +48,23 @@ Bottom text
 
   it('does not process placeholders in the card text', () => {
     const injected: Card = { ...card, text: 'Text <!-- tarot:image --> <!-- tarot:name -->' };
-    const result = renderTemplate('<!-- tarot:image -->\n<!-- tarot:text -->', injected, 'date');
+    const result = renderTemplate('<!-- tarot:image -->\n<!-- tarot:text -->', injected, { date: 'date', cacheKey: 'k' });
     expect(result.split('<img').length).toBe(2);
     expect(result).toContain('Text <!-- tarot:image --> <!-- tarot:name -->');
   });
 
   it('rejects a template that is not valid', () => {
-    expect(() => renderTemplate('<!-- tarot:text -->', card, 'date')).toThrow(/tarot:image/);
+    expect(() => renderTemplate('<!-- tarot:text -->', card, { date: 'date', cacheKey: 'k' })).toThrow(/tarot:image/);
   });
 });
 
 describe('renderImage', () => {
   it('encodes the path and escapes HTML', () => {
-    expect(renderImage({ name: "Ace's & Co", text: 't', imagePath: 'assets/a b/c#d.png' })).toBe('<img src="assets/a%20b/c%23d.png" alt="Ace&#39;s &amp; Co" width="300">');
+    expect(renderImage({ name: "Ace's & Co", text: 't', imagePath: 'assets/a b/c#d.png' }, 'k1')).toBe('<img src="assets/a%20b/c%23d.png?v=k1" alt="Ace&#39;s &amp; Co" width="300">');
+  });
+
+  it('rejects a cache key that is not alphanumeric', () => {
+    for (const key of ['', 'a&b', 'a"b', 'x'.repeat(65)]) expect(() => renderImage(card, key)).toThrow(/cache key/);
   });
 
   it('encodes each path segment', () => {

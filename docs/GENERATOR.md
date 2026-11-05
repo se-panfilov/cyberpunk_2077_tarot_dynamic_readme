@@ -35,16 +35,19 @@ To add a card, add the text file and the image file with the same name. Then run
 The template is [`templates/README.template.md`](../templates/README.template.md). It is Markdown with placeholders.
 A placeholder is an HTML comment, so the template stays valid Markdown.
 
-| Placeholder            | Replaced with                                         | Occurrences  |
-| ---------------------- | ----------------------------------------------------- | ------------ |
-| `<!-- tarot:image -->` | An `<img>` element with the card image.               | Exactly one. |
-| `<!-- tarot:text -->`  | The card text.                                        | Exactly one. |
-| `<!-- tarot:name -->`  | The card name.                                        | Any.         |
-| `<!-- tarot:date -->`  | The date in Amsterdam, for example `5 November 2026`. | Any.         |
+| Placeholder            | Replaced with                                           | Occurrences  |
+| ---------------------- | ------------------------------------------------------- | ------------ |
+| `<!-- tarot:image -->` | An `<img>` element with the card image and a cache key. | Exactly one. |
+| `<!-- tarot:text -->`  | The card text.                                          | Exactly one. |
+| `<!-- tarot:name -->`  | The card name.                                          | Any.         |
+| `<!-- tarot:date -->`  | The date in Amsterdam, for example `5 November 2026`.   | Any.         |
 
 The program rejects an unknown `tarot:` placeholder and a wrong number of occurrences.
 All placeholders are replaced in one pass. A placeholder in a card text is not replaced.
 All other template text stays the same in `README.md`.
+
+The image link has a random cache key in the query string, for example `assets/The%20Fool.png?v=3f9a1c0e7b2d4a61`.
+Each run makes a new key, so that browsers and the GitHub image proxy show the new image and do not use an old copy.
 
 ## Generated README
 

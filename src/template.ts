@@ -55,17 +55,31 @@ export function encodePath(path: string): string {
   return path.split('/').map(encodeURIComponent).join('/');
 }
 
-export function renderImage(card: Card): string {
-  return `<img src="${escapeHtml(encodePath(card.imagePath))}" alt="${escapeHtml(card.name)}" width="${imageWidth}">`;
+const cacheKeyPattern = /^[A-Za-z0-9]{1,64}$/;
+
+/**
+ * Make the `<img>` element. The cache key goes into the query string, so that browsers and the GitHub image proxy
+ * load the image again after each run.
+ */
+export function renderImage(card: Card, cacheKey: string): string {
+  if (!cacheKeyPattern.test(cacheKey)) throw new Error('The cache key must have 1 to 64 ASCII letters or digits.');
+  return `<img src="${escapeHtml(encodePath(card.imagePath))}?v=${cacheKey}" alt="${escapeHtml(card.name)}" width="${imageWidth}">`;
 }
+
+export type RenderValues = {
+  /** The date of the reading. */
+  readonly date: string;
+  /** A random value for the image query string. */
+  readonly cacheKey: string;
+};
 
 /**
  * Put the card into the template. All placeholders are replaced in one pass.
  * Thus text from a card file cannot add placeholders or change other parts of the template.
  */
-export function renderTemplate(template: string, card: Card, date: string): string {
+export function renderTemplate(template: string, card: Card, { date, cacheKey }: RenderValues): string {
   const problems = templateProblems(template);
   if (problems.length) throw new GeneratorError(`The template is not valid:\n- ${problems.join('\n- ')}`);
-  const values: Record<Placeholder, string> = { image: renderImage(card), text: card.text, name: card.name, date };
+  const values: Record<Placeholder, string> = { image: renderImage(card, cacheKey), text: card.text, name: card.name, date };
   return template.replace(placeholderPattern, (_match, name: string) => (isPlaceholder(name) ? values[name] : ''));
 }

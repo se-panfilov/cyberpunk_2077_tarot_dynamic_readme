@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 
 import { defaultPaths, limits, timeZone } from '@tarot/config';
@@ -15,6 +16,8 @@ export type GenerateOptions = {
   readonly outputPath?: string;
   readonly now?: Date;
   readonly random?: RandomIndex;
+  /** The cache key for the image link. The default is 16 random hexadecimal digits. */
+  readonly cacheKey?: string;
 };
 
 export type GenerateResult = {
@@ -54,7 +57,7 @@ export function generateReadme(options: GenerateOptions): GenerateResult {
   const deck = loadDeck(options.root, assetsDir);
   const previous = previousCardName(readTextFile(outputPath, limits.readmeBytes));
   const card = pickCard(deck.cards, options.random ?? secureRandomIndex, previous);
-  const body = renderTemplate(template, card, readingDate(options.now ?? new Date()));
+  const body = renderTemplate(template, card, { date: readingDate(options.now ?? new Date()), cacheKey: options.cacheKey ?? randomBytes(8).toString('hex') });
   const content = `${readmeHeader(card, templatePath)}${body.replace(/\n*$/, '\n')}`;
   return { card, content, outputPath, textsWithoutImage: deck.textsWithoutImage, imagesWithoutText: deck.imagesWithoutText };
 }
