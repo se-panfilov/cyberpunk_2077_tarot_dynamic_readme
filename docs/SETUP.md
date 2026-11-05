@@ -24,7 +24,7 @@ The workflow pushes a commit directly to `master` with the `GITHUB_TOKEN`.
 
 1. Open **Actions → Daily README**.
 2. Click **Run workflow** and select `master`.
-3. Set `dry_run` to on. Click **Run workflow**.
+3. Set `dry_run` to on. Set `run_checks` to on to also run the tests. Click **Run workflow**.
 4. Open the run. The **Show the result** step shows the selected card. Nothing is pushed.
 5. Run the workflow again with `dry_run` off. The run pushes a new `README.md` to `master`.
 6. Open the repository page and examine the card.

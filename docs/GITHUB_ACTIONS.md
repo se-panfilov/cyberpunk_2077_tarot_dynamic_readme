@@ -3,12 +3,12 @@
 The repository has four GitHub Actions workflows and a Dependabot configuration.
 See [the setup guide](SETUP.md) for the one-time steps in the repository settings.
 
-| Workflow                                              | Start                                                 | Result                                                                       |
-| ----------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [Daily README](../.github/workflows/daily-readme.yml) | Each day at 11:00 in Amsterdam, manual start.         | Tests the generator, writes a new `README.md`, and pushes it to `master`.    |
-| [Tests](../.github/workflows/test.yml)                | Pull request, push to `master`, manual start.         | Formatting, lint, type checks, tests, and a dry run of the generator.        |
-| [Secrets](../.github/workflows/secrets.yml)           | Pull request, push to `master`, manual start.         | Lefthook validation and Gitleaks scans of the history and the working files. |
-| [CodeQL](../.github/workflows/codeql.yml)             | Pull request, push to `master`, weekly, manual start. | Static security analysis of JavaScript, TypeScript, and the workflows.       |
+| Workflow                                              | Start                                                 | Result                                                                          |
+| ----------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [Daily README](../.github/workflows/daily-readme.yml) | Each day at 11:00 in Amsterdam, manual start.         | Writes a new `README.md` and pushes it to `master`. Checks run only on request. |
+| [Tests](../.github/workflows/test.yml)                | Pull request, push to `master`, manual start.         | Formatting, lint, type checks, tests, and a dry run of the generator.           |
+| [Secrets](../.github/workflows/secrets.yml)           | Pull request, push to `master`, manual start.         | Lefthook validation and Gitleaks scans of the history and the working files.    |
+| [CodeQL](../.github/workflows/codeql.yml)             | Pull request, push to `master`, weekly, manual start. | Static security analysis of JavaScript, TypeScript, and the workflows.          |
 
 ## Daily README
 
@@ -28,17 +28,32 @@ GitHub can start a scheduled run some minutes late. Scheduled runs start only fr
 1. Open **Actions → Daily README**.
 2. Click **Run workflow** and select `master`.
 3. Set `dry_run`. A dry run generates `README.md` and shows the card in the log. It does not commit or push.
-4. Click **Run workflow**.
+4. Set `run_checks`. Then the run does the type checks and the tests before the generator.
+5. Click **Run workflow**.
 
 ### Steps
 
 1. Check out `master` without stored credentials.
-2. Install the locked dependencies with `npm ci --ignore-scripts`.
-3. Run `npm run typecheck` and `npm test`. A failure stops the run before `README.md` changes.
-4. Run `npm run readme`.
+2. Install the locked dependencies with `npm ci --ignore-scripts`. The build needs Vite.
+3. Only when `run_checks` is on: run `npm run typecheck` and `npm test`. A failure stops the run before `README.md` changes.
+4. Run `npm run readme`. The command builds the generator and stops on a build failure.
 5. If `README.md` changed and the run is not a dry run, commit only `README.md` as `github-actions[bot]` and push it to `master`.
 
 The push fails when `master` received another commit during the run. Start the workflow again in this case.
+
+### Actions minutes
+
+The scheduled run does no lint, type checks, or tests, to use as few Actions minutes as possible.
+The Tests workflow checks each push to `master` and each pull request. Thus the daily run does not repeat these checks.
+Commits from the daily run do not start other workflows. Actions minutes are free for public repositories on GitHub-hosted standard runners.
+
+### Stop and start the schedule
+
+1. Open **Actions → Daily README**.
+2. Click **…** and select **Disable workflow**. Scheduled and manual runs stop.
+3. To start again, click **Enable workflow**.
+
+You can also use `gh workflow disable daily-readme.yml` and `gh workflow enable daily-readme.yml`.
 
 ## Security controls
 
