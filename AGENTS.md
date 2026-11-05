@@ -64,6 +64,8 @@ If unclear, keep the safer state and ask.
 - A card is a text file and an image file with the same name in `assets/`. See [the generator documentation](docs/GENERATOR.md).
 - A generated `README.md` shows exactly one card image and one card text. The template check enforces this.
 - Keep text above and below the card in the template. A test checks it.
+- Keep the fan content notice in the template, `LIST.md`, and `NOTICE.md`. A test checks it. The card images and texts belong to CD PROJEKT S.A. and are not under the MIT license. See [NOTICE.md](NOTICE.md).
+- Do not use the card content commercially or in a way that suggests that CD PROJEKT RED endorses the project.
 - Inject the random source and the time, so that tests stay deterministic. Production uses `node:crypto` randomness.
 - Do not add network access to the generator.
 

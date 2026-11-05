@@ -19,6 +19,11 @@ describe('repository data', () => {
     expect(template.slice(template.indexOf('<!-- tarot:text -->') + '<!-- tarot:text -->'.length).trim()).not.toBe('');
   });
 
+  it('shows the fan content notice', () => {
+    const notice = 'This is an unofficial fan work and is not approved/endorsed by CD PROJEKT RED.';
+    for (const path of [defaultPaths.template, 'LIST.md', 'NOTICE.md']) expect(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8')).toContain(notice);
+  });
+
   it('has complete cards', () => {
     const deck = loadDeck(root, defaultPaths.assets);
     expect(deck.cards.length).toBeGreaterThan(1);

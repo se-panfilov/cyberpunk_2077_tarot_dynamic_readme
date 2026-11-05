@@ -20,4 +20,10 @@ Night City has a message for you. Each day at 11:00 (Amsterdam time), a GitHub A
 - [The daily workflow](.github/workflows/daily-readme.yml) runs the command and pushes the new `README.md` to `master`.
 - Do not edit `README.md`. Edit the template. See [the generator documentation](docs/GENERATOR.md) and [the setup guide](docs/SETUP.md).
 
-Cyberpunk 2077 is a trademark of CD PROJEKT S.A. This is a non-commercial fan project.
+## Legal
+
+This is an unofficial fan work and is not approved/endorsed by CD PROJEKT RED.
+
+The tarot card images and card texts in [`assets/`](assets) come from the game Cyberpunk 2077. They are © CD PROJEKT S.A. All rights reserved. They are used here in a non-commercial fan project under the [CD PROJEKT RED Fan Content Guidelines](https://www.cdprojektred.com/en/fan-content). They are not covered by the MIT license of this repository. See [NOTICE.md](NOTICE.md).
+
+CD PROJEKT, Cyberpunk, and Cyberpunk 2077 are registered trademarks of CD PROJEKT S.A.
