@@ -32,7 +32,7 @@ The workflow pushes a commit directly to `master` with the `GITHUB_TOKEN`.
 ## 4. Optional settings
 
 - **CodeQL**: open **Settings → Advanced Security** and make sure that CodeQL **default setup** is off. The CodeQL workflow does the analysis.
-- **Dependabot security updates**: enable them in **Settings → Advanced Security**.
+- **Dependabot alerts**: enable them in **Settings → Advanced Security**. Optionally also enable **Dependabot security updates**, which open a pull request only for a vulnerability.
 - **Local Git hooks**: run `npm ci --ignore-scripts` and `npm run hooks:install`. See [Git hooks](GIT_HOOKS.md).
 
 ## Schedule notes

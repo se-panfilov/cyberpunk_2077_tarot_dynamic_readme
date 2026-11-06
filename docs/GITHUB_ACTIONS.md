@@ -1,6 +1,6 @@
 # GitHub Actions
 
-The repository has four GitHub Actions workflows and a Dependabot configuration.
+The repository has four GitHub Actions workflows.
 See [the setup guide](SETUP.md) for the one-time steps in the repository settings.
 
 | Workflow                                              | Start                                                 | Result                                                                          |
@@ -85,7 +85,7 @@ Limits:
 
 ### Manual version pins
 
-Dependabot updates only the actions in `uses:` and the npm packages. Update these pins manually:
+There are no automatic version updates. Update the actions in `uses:`, the npm packages, and these pins manually:
 
 | Pin                     | Location                                                        | Check                   |
 | ----------------------- | --------------------------------------------------------------- | ----------------------- |
@@ -102,8 +102,7 @@ A human decides how to handle each alert. Do not dismiss an alert without a reco
 
 ## Dependabot
 
-The [Dependabot configuration](../.github/dependabot.yml) makes version update pull requests one time each week, on Monday.
-
-- A new version must be 7 days old before Dependabot proposes it. A major npm version must be 14 days old.
-- Security updates do not wait. Enable them in **Settings → Advanced Security → Dependabot security updates**.
-- A human examines each Dependabot pull request and merges it.
+The repository has no Dependabot configuration file, so that Dependabot does not open version update pull requests.
+Dependabot alerts report known vulnerabilities in the dependencies. Enable them in **Settings → Advanced Security → Dependabot alerts**.
+Dependabot security updates open a pull request only for a vulnerability. They are optional, in the same settings page.
+A human examines each Dependabot pull request and merges it.
