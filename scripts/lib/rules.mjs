@@ -1,4 +1,4 @@
-// Shared Git rules from AGENTS.md and docs/WRITING.md. The commit-msg hook uses them.
+// Shared Git rules from AGENTS.md. The commit-msg hook uses them.
 // Links to AI agent threads, chats, sessions, and tasks, by host name and path prefix.
 // Product pages without a conversation are not matched.
 export const aiLinkHosts = {

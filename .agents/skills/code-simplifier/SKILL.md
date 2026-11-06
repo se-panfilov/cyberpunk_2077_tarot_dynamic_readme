@@ -18,7 +18,7 @@ They add generator safety invariants, explicit scope, and verification requireme
 
 # Simplify generator code
 
-Read [AGENTS.md](../../../AGENTS.md) and [the generator documentation](../../../docs/GENERATOR.md) first.
+Read [AGENTS.md](../../../AGENTS.md) first.
 Use the [security-reviewer](../../../.claude/agents/security-reviewer.md) subagent, or an equivalent separate review, for the required security review.
 This skill grants no additional permission to change assets, Git history, or external services.
 
@@ -37,9 +37,11 @@ Preserve explicit runtime imports and the `dist/` build output.
 
 Preserve these properties when present:
 
-- Template placeholder validation and rejection of ambiguous states.
+- Template placeholder validation, both placeholder forms (`<!-- tarot:name -->` and `{{tarot:name}}`), and rejection of ambiguous states.
 - One card and one text in each generated `README.md`.
 - Card data validation: names, text size, image extensions, and paths inside `assets/`.
+- Symbol image rules: files in `images/`, random variants `_1` to `_4` without repeats, the fixed variant `_5` for the `system` style, and the `<picture>` wrapper.
+- The cache key in each image link.
 - Injected randomness, so that tests stay deterministic.
 - Path checks, link checks, and atomic writes.
 - Dry-run behavior and clear failure diagnostics.
@@ -52,7 +54,7 @@ Write new code comments in English.
 ## Improve readability
 
 Prefer explicit control flow to nested ternaries and dense expressions.
-Use the terms from [the glossary](../../../docs/GLOSSARY.md) for names: card, deck, template, placeholder.
+Use the project terms for names: card, deck, template, placeholder, symbol image, variant, cache key.
 Remove redundant abstractions only when their removal improves understanding.
 Keep loading, validation, rendering, and writes distinct.
 Use early returns only when they preserve cleanup and error behavior.

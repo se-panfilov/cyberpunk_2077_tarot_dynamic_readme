@@ -1,7 +1,8 @@
 # Draw a new tarot card each day and push the new README.md to master.
 # The run is minimal to save Actions minutes: no lint, type checks, or tests.
 # Start the workflow manually with run_checks to run the checks before the generator.
-# See docs/GITHUB_ACTIONS.md and docs/SETUP.md for the one-time repository setup.
+# One-time setup: Settings → Actions → General → Workflow permissions → "Read and write permissions".
+# If master has branch protection or a ruleset, let GitHub Actions bypass it.
 
 name: Daily README
 

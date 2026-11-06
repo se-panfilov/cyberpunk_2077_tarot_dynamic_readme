@@ -104,7 +104,7 @@ function main() {
     if (!Array.isArray(findings) || !findings.length) throw new ScanFailure('Gitleaks did not complete the scan or returned a report that is not valid.');
     const rules = [...new Set(findings.map((finding) => finding.RuleID).filter((rule) => typeof rule === 'string' && /^[a-z0-9-]+$/.test(rule)))];
     // Do not print excerpts, secrets, filenames, or raw scanner diagnostics.
-    console.error(`Possible secrets found: ${findings.length}. Rules: ${rules.join(', ')}. See docs/GIT_HOOKS.md.`);
+    console.error(`Possible secrets found: ${findings.length}. Rules: ${rules.join(', ')}.`);
     process.exitCode = 1;
   } finally {
     rmSync(temporary, { recursive: true, force: true });
@@ -114,6 +114,6 @@ function main() {
 try {
   main();
 } catch (error) {
-  console.error(error instanceof ScanFailure ? error.message : 'The secret scan did not run. Examine Git, Gitleaks, and the settings in docs/GIT_HOOKS.md.');
+  console.error(error instanceof ScanFailure ? error.message : 'The secret scan did not run. Examine Git, Gitleaks, and the settings in .gitleaks.toml.');
   process.exitCode = 2;
 }

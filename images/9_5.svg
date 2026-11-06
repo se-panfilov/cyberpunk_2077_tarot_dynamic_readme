@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="88" viewBox="0 0 72 88" role="img" aria-label="9">
+ <defs>
+  <path id="glyph" d="M35.463499999999996 39.506Q40.2365 39.506 42.956 36.065Q45.6755 32.624 45.6755 26.556000000000004Q45.6755 20.488 42.956 17.047Q40.2365 13.606000000000002 35.463499999999996 13.606000000000002Q30.505499999999998 13.606000000000002 27.9895 16.8805Q25.4735 20.155 25.4735 26.556000000000004Q25.4735 32.994 27.971 36.25Q30.4685 39.506 35.463499999999996 39.506ZM22.1435 62.853V55.971000000000004Q24.4745 57.34 27.1015 58.0615Q29.7285 58.783 32.5775 58.783Q39.6815 58.783 43.326 53.4365Q46.9705 48.09 46.9705 37.693Q45.2315 41.393 42.0865 43.3725Q38.9415 45.352000000000004 34.8715 45.352000000000004Q26.8795 45.352000000000004 22.495 40.431000000000004Q18.110500000000002 35.510000000000005 18.110500000000002 26.482Q18.110500000000002 17.565000000000005 22.606 12.662500000000005Q27.1015 7.760000000000005 35.3155 7.760000000000005Q44.9355 7.760000000000005 49.412499999999994 14.679000000000002Q53.8895 21.598 53.8895 36.435Q53.8895 50.384 48.506 57.7285Q43.1225 65.073 32.8735 65.073Q30.1725 65.073 27.4345 64.4995Q24.6965 63.926 22.1435 62.853Z"/>
+  <clipPath id="cutA"><rect x="0" y="41" width="72" height="2.2"/></clipPath>
+  <clipPath id="cutB"><rect x="0" y="48" width="72" height="1.8"/></clipPath>
+  <pattern id="scan" width="72" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5H72" stroke="#9bffff" stroke-width=".35" opacity=".045"/></pattern>
+ </defs>
+ <rect width="72" height="88" fill="#192023"/>
+ <rect width="72" height="88" fill="url(#scan)"/>
+ <path d="M0 3.5H72M0 84H72" stroke="#5ca8aa" stroke-width=".6" opacity=".12"/>
+ <use href="#glyph" transform="translate(-.9 .45)" fill="#366974" opacity=".46"/>
+ <use href="#glyph" transform="translate(.65 -.35)" fill="#a5ece4" opacity=".21"/>
+ <use href="#glyph" fill="#85cad0"/>
+ <use href="#glyph" transform="translate(0.9 0)" fill="#b6f3ea" clip-path="url(#cutA)" opacity=".91"/>
+ <use href="#glyph" transform="translate(-1.0 0)" fill="#3b8792" clip-path="url(#cutB)" opacity=".86"/>
+ <path d="M14 42.0h10" stroke="#b1e2db" opacity=".4" stroke-width=".7"/>
+ <path d="M53 49.0h3" stroke="#326875" opacity=".4" stroke-width=".8"/>
+</svg>

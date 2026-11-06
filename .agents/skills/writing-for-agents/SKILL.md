@@ -7,11 +7,11 @@ description: Writing documents for agents. Use when creating or editing skills, 
 
 ## Project integration
 
-Read [AGENTS.md](../../../AGENTS.md) and [the writing rules](../../../docs/WRITING.md) before applying the reference below.
+Read [AGENTS.md](../../../AGENTS.md), including its Documentation section, before applying the reference below.
 Use this reference with the [agents-md](../agents-md/SKILL.md) skill. That skill gives the procedure, and this reference gives the writing principles.
 Do not remove or weaken required safety, authorization, or human-decision rules to reduce context load. Such a change needs a human decision.
 Keep a security prohibition as a prohibition. Add the positive target behavior next to it when that helps.
-`disable-model-invocation` is Claude Code frontmatter. Other hosts can ignore it. Keep shared skills usable by all hosts that [the agent setup guide](../../../docs/AI_AGENTS.md) lists.
+`disable-model-invocation` is Claude Code frontmatter. Other hosts can ignore it. Keep shared skills usable by all hosts that [the agent setup guide](../../README.md) lists.
 
 ## Reference
 

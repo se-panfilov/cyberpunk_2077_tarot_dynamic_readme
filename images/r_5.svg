@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="88" viewBox="0 0 72 88" role="img" aria-label="r">
+ <defs>
+  <path id="glyph" d="M50.670500000000004 31.107Q48.4875 29.405 46.2305 28.628Q43.9735 27.851 41.272499999999994 27.851Q34.908500000000004 27.851 31.541500000000003 31.847Q28.174500000000002 35.843 28.174500000000002 43.391000000000005V64.0H21.329500000000003V22.560000000000002H28.174500000000002V30.663000000000004Q29.8765 26.260000000000005 33.41 23.910500000000003Q36.9435 21.561 41.790499999999994 21.561Q44.3065 21.561 46.4895 22.19Q48.6725 22.819000000000003 50.670500000000004 24.151000000000003Z"/>
+  <clipPath id="cutA"><rect x="0" y="44" width="72" height="2.2"/></clipPath>
+  <clipPath id="cutB"><rect x="0" y="55" width="72" height="1.8"/></clipPath>
+  <pattern id="scan" width="72" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5H72" stroke="#9bffff" stroke-width=".35" opacity=".045"/></pattern>
+ </defs>
+ <rect width="72" height="88" fill="#192023"/>
+ <rect width="72" height="88" fill="url(#scan)"/>
+ <path d="M0 3.5H72M0 84H72" stroke="#5ca8aa" stroke-width=".6" opacity=".12"/>
+ <use href="#glyph" transform="translate(-.9 .45)" fill="#366974" opacity=".46"/>
+ <use href="#glyph" transform="translate(.65 -.35)" fill="#a5ece4" opacity=".21"/>
+ <use href="#glyph" fill="#85cad0"/>
+ <use href="#glyph" transform="translate(1.1 0)" fill="#b6f3ea" clip-path="url(#cutA)" opacity=".91"/>
+ <use href="#glyph" transform="translate(-1.0 0)" fill="#3b8792" clip-path="url(#cutB)" opacity=".86"/>
+ <path d="M22 45.0h9" stroke="#b1e2db" opacity=".4" stroke-width=".7"/>
+ <path d="M48 56.0h7" stroke="#326875" opacity=".4" stroke-width=".8"/>
+</svg>

@@ -1,12 +1,13 @@
 import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 
-import { defaultPaths, limits, timeZone } from '@tarot/config';
+import { defaultPaths, limits, systemVariant, timeZone } from '@tarot/config';
 import { type Card, isValidCardName, loadDeck } from '@tarot/deck';
 import { GeneratorError } from '@tarot/errors';
 import { readTextFile } from '@tarot/files';
+import { createKeyRenderer, loadGlyphs } from '@tarot/glyphs';
 import { pickCard, type RandomIndex, secureRandomIndex } from '@tarot/pick';
-import { renderTemplate } from '@tarot/template';
+import { renderTemplate, usesSymbolImages } from '@tarot/template';
 
 export type GenerateOptions = {
   /** The repository root. */
@@ -14,6 +15,8 @@ export type GenerateOptions = {
   readonly assetsDir?: string;
   readonly templatePath?: string;
   readonly outputPath?: string;
+  /** The directory of the symbol images. */
+  readonly imagesDir?: string;
   readonly now?: Date;
   readonly random?: RandomIndex;
   /** The cache key for the image link. The default is 16 random hexadecimal digits. */
@@ -57,7 +60,12 @@ export function generateReadme(options: GenerateOptions): GenerateResult {
   const deck = loadDeck(options.root, assetsDir);
   const previous = previousCardName(readTextFile(outputPath, limits.readmeBytes));
   const card = pickCard(deck.cards, options.random ?? secureRandomIndex, previous);
-  const body = renderTemplate(template, card, { date: readingDate(options.now ?? new Date()), cacheKey: options.cacheKey ?? randomBytes(8).toString('hex') });
+  const cacheKey = options.cacheKey ?? randomBytes(8).toString('hex');
+  // Read the symbol images only when the template uses them.
+  const imagesDir = options.imagesDir ?? defaultPaths.images;
+  const random = options.random ?? secureRandomIndex;
+  const renderKey = usesSymbolImages(template) ? createKeyRenderer(loadGlyphs(options.root, imagesDir), cacheKey, random, loadGlyphs(options.root, imagesDir, systemVariant)) : undefined;
+  const body = renderTemplate(template, card, { date: readingDate(options.now ?? new Date()), cacheKey, renderKey });
   const content = `${readmeHeader(card, templatePath)}${body.replace(/\n*$/, '\n')}`;
   return { card, content, outputPath, textsWithoutImage: deck.textsWithoutImage, imagesWithoutText: deck.imagesWithoutText };
 }

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="88" viewBox="0 0 72 88" role="img" aria-label="2">
+ <defs>
+  <path id="glyph" d="M27.3975 57.71H52.7795V64.0H19.2205V57.71Q26.1395 50.421 31.319499999999998 44.834Q36.4995 39.247 38.460499999999996 36.953Q42.1605 32.439 43.4555 29.645500000000002Q44.7505 26.852000000000004 44.7505 23.929000000000002Q44.7505 19.304000000000002 42.031000000000006 16.677000000000003Q39.3115 14.050000000000004 34.575500000000005 14.050000000000004Q31.2085 14.050000000000004 27.5085 15.271000000000004Q23.808500000000002 16.492000000000004 19.664500000000004 18.971000000000004V11.423000000000002Q23.475500000000004 9.61 27.157000000000004 8.685000000000002Q30.838500000000003 7.760000000000005 34.4275 7.760000000000005Q42.5305 7.760000000000005 47.47 12.070500000000003Q52.409499999999994 16.381 52.409499999999994 23.374000000000002Q52.409499999999994 26.926000000000002 50.763 30.478Q49.1165 34.03 45.4165 38.322Q43.3445 40.727000000000004 39.403999999999996 44.982Q35.463499999999996 49.237 27.3975 57.71Z"/>
+  <clipPath id="cutA"><rect x="0" y="44" width="72" height="2.2"/></clipPath>
+  <clipPath id="cutB"><rect x="0" y="54" width="72" height="1.8"/></clipPath>
+  <pattern id="scan" width="72" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5H72" stroke="#9bffff" stroke-width=".35" opacity=".045"/></pattern>
+ </defs>
+ <rect width="72" height="88" fill="#192023"/>
+ <rect width="72" height="88" fill="url(#scan)"/>
+ <path d="M0 3.5H72M0 84H72" stroke="#5ca8aa" stroke-width=".6" opacity=".12"/>
+ <use href="#glyph" transform="translate(-.9 .45)" fill="#366974" opacity=".46"/>
+ <use href="#glyph" transform="translate(.65 -.35)" fill="#a5ece4" opacity=".21"/>
+ <use href="#glyph" fill="#85cad0"/>
+ <use href="#glyph" transform="translate(0.9 0)" fill="#b6f3ea" clip-path="url(#cutA)" opacity=".91"/>
+ <use href="#glyph" transform="translate(-1.0 0)" fill="#3b8792" clip-path="url(#cutB)" opacity=".86"/>
+ <path d="M21 45.0h7" stroke="#b1e2db" opacity=".4" stroke-width=".7"/>
+ <path d="M48 55.0h3" stroke="#326875" opacity=".4" stroke-width=".8"/>
+</svg>

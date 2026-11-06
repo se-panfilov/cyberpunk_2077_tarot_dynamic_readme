@@ -17,6 +17,7 @@ Also examine each changed generator file for these items:
 
 * [ ] **Template**: each placeholder is validated, and inserted card text cannot add or replace placeholders.
 * [ ] **Card data**: card names, text, and image paths are validated. Paths stay inside `assets/`.
+* [ ] **Symbol images**: symbol and size values are validated. Paths stay inside `images/`. A missing image stops the run before `README.md` changes.
 * [ ] **Files**: path validation, symbolic links, overwrite behavior, and atomic writes. The generator writes only `README.md`.
 * [ ] **Subprocesses**: argument arrays only, no user data in shell text, and an isolated environment for Git and other tools.
 * [ ] **Network and external effects**: no network access, paid API call, publication, or push without explicit authorization. Only the daily workflow pushes `README.md`.

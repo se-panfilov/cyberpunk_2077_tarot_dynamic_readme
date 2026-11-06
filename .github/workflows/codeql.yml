@@ -1,5 +1,5 @@
 # Static security analysis with CodeQL for TypeScript, JavaScript, and GitHub Actions workflows.
-# Results go to Security → Code scanning. See docs/GITHUB_ACTIONS.md for the one-time repository setup.
+# Results go to Security → Code scanning.
 # Do not enable CodeQL default setup together with this workflow. GitHub rejects results from both.
 
 name: CodeQL

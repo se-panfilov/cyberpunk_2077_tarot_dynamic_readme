@@ -39,20 +39,25 @@ To add a card:
 ## Template
 
 The template is [`templates/README.template.md`](../templates/README.template.md). It is Markdown with placeholders.
-A placeholder is an HTML comment, so the template stays valid Markdown.
+A placeholder is an HTML comment, so the template stays valid Markdown. Each placeholder also has the form `{{tarot:name}}` for HTML attributes.
 
-| Placeholder            | Replaced with                                           | Occurrences  |
-| ---------------------- | ------------------------------------------------------- | ------------ |
-| `<!-- tarot:image -->` | An `<img>` element with the card image and a cache key. | Exactly one. |
-| `<!-- tarot:text -->`  | The card text.                                          | Exactly one. |
-| `<!-- tarot:name -->`  | The card name.                                          | Any.         |
-| `<!-- tarot:date -->`  | The date in Amsterdam, for example `5 November 2026`.   | Any.         |
+| Placeholder                      | Replaced with                                                                         | Occurrences  |
+| -------------------------------- | ------------------------------------------------------------------------------------- | ------------ |
+| `<!-- tarot:image -->`           | An `<img>` element with the card image and a cache key.                               | Exactly one. |
+| `<!-- tarot:text -->`            | The card text.                                                                        | Exactly one. |
+| `<!-- tarot:name -->`            | The card name.                                                                        | Any.         |
+| `<!-- tarot:date -->`            | The date in Amsterdam, for example `5 November 2026`.                                 | Any.         |
+| `<!-- tarot:cacheKey -->`        | The cache key of the run, for other image links.                                      | Any.         |
+| `<!-- tarot:key:SYMBOL:SIZE -->` | One symbol image from `images/`, for example `<!-- tarot:key:a:24 -->`.               | Any.         |
+| `<!-- tarot:date:STYLE:SIZE -->` | The date as symbol images from `images/`, for example `<!-- tarot:date:capri:18 -->`. | Any.         |
+
+See the Symbol images section in [AGENTS.md](../AGENTS.md) for the variant rules.
 
 The program rejects an unknown `tarot:` placeholder and a wrong number of occurrences.
 All placeholders are replaced in one pass. A placeholder in a card text is not replaced.
 All other template text stays the same in `README.md`.
 
-The `<img>` element sets only the width (300 pixels). The browser calculates the height from the image proportions, so that images of different sizes have the same width and are not distorted.
+The card `<img>` element has no size attributes. All card images have the same height (784 pixels), so that they show at almost the same size.
 
 The image link has a random cache key in the query string, for example `assets/The%20Fool.png?v=3f9a1c0e7b2d4a61`.
 Each run makes a new key, so that browsers and the GitHub image proxy show the new image and do not use an old copy.
