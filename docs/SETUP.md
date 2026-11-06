@@ -37,7 +37,7 @@ The workflow pushes a commit directly to `master` with the `GITHUB_TOKEN`.
 
 ## Schedule notes
 
-- The schedule is `0 11 * * *` with `timezone: Europe/Amsterdam`. GitHub changes the UTC time for daylight saving time.
+- The schedule is `3 9,10 * * *` in UTC. The `gate` job lets only the start at 11:03 in Amsterdam (or later) continue, one time each day. Thus daylight saving time needs no change.
 - GitHub can start a scheduled run some minutes late when it has a high load. The run uses the date in Amsterdam when it starts.
 - Scheduled workflows run only from the default branch. Keep `master` as the default branch.
 - GitHub disables a schedule after 60 days without repository activity. The daily commits are activity, so this does not occur while the workflow works. If the schedule becomes disabled, open **Actions → Daily README** and click **Enable workflow**.

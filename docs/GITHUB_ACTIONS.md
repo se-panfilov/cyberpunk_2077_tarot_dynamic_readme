@@ -16,12 +16,12 @@ See [the setup guide](SETUP.md) for the one-time steps in the repository setting
 
 ```yaml
 schedule:
-  - cron: '0 11 * * *'
-    timezone: Europe/Amsterdam
+  - cron: '3 9,10 * * *'
 ```
 
-GitHub evaluates the cron expression in the given IANA time zone. Thus the run stays at 11:00 local time in summer and in winter.
-GitHub can start a scheduled run some minutes late. Scheduled runs start only from the default branch.
+Cron uses UTC. 11:03 in Amsterdam is 09:03 UTC in summer and 10:03 UTC in winter, so the workflow starts at both times.
+The `gate` job continues a scheduled run only when it is 11:00 or later in Amsterdam and the workflow did not push `README.md` on this Amsterdam date. Thus the card changes one time each day, in summer and in winter. If GitHub drops the first start, the second start makes the update.
+GitHub can start a scheduled run late, mostly at the full hour. Thus the cron uses minute 3. Scheduled runs start only from the default branch. A manual start skips the `gate` check.
 
 ### Manual start
 
