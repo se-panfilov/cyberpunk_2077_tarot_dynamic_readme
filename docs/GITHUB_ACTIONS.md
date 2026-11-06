@@ -33,11 +33,21 @@ GitHub can start a scheduled run some minutes late. Scheduled runs start only fr
 
 ### Steps
 
+The workflow has two jobs. The `generate` job runs the npm dependencies with a read-only token. The `push` job has the write token, but it runs no npm code. Thus a compromised dependency cannot get the write token.
+
+`generate` job (`contents: read`):
+
 1. Check out `master` without stored credentials.
 2. Install the locked dependencies with `npm ci --ignore-scripts`. The build needs Vite.
 3. Only when `run_checks` is on: run `npm run typecheck` and `npm test`. A failure stops the run before `README.md` changes.
 4. Run `npm run readme`. The command builds the generator and stops on a build failure.
-5. If `README.md` changed and the run is not a dry run, commit only `README.md` as `github-actions[bot]` and push it to `master`.
+5. If the run is not a dry run, keep `README.md` as the `readme` artifact for one day.
+
+`push` job (`contents: write`, not in a dry run):
+
+1. Check out `master` without stored credentials.
+2. Download the `readme` artifact. Stop if it has other files, a link, a file larger than 1 MiB, or no generator header.
+3. If `README.md` changed, commit only `README.md` as `github-actions[bot]` with Git hooks off, and push it to `master`.
 
 The push fails when `master` received another commit during the run. Start the workflow again in this case.
 
@@ -57,19 +67,19 @@ You can also use `gh workflow disable daily-readme.yml` and `gh workflow enable 
 
 ## Security controls
 
-| Control              | Implementation                                                                                                                                         |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Token permissions    | The default is `contents: read`. Only the Daily README `update` job has `contents: write`. Only the CodeQL `analyze` job has `security-events: write`. |
-| Checkout credentials | All jobs use `persist-credentials: false`. The Daily README job gives the token to the push command only, through a one-time Git option.               |
-| Pushed files         | The Daily README job stages only `README.md`.                                                                                                          |
-| Actions              | Each action is pinned to a full commit SHA with the version in a comment.                                                                              |
-| Trigger events       | No `pull_request_target`, `workflow_run`, `issue_comment`, pull request review, or discussion events.                                                  |
-| Input handling       | Inputs go to scripts through environment variables, not through `${{ }}` in shell text.                                                                |
-| Dependency scripts   | `npm ci` uses `--ignore-scripts`, and `.npmrc` sets `ignore-scripts=true`. No dependency cache is used.                                                |
+| Control              | Implementation                                                                                                                                       |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Token permissions    | The default is `contents: read`. Only the Daily README `push` job has `contents: write`. Only the CodeQL `analyze` job has `security-events: write`. |
+| Checkout credentials | All jobs use `persist-credentials: false`. The Daily README `push` job gives the token to the push command only, through a one-time Git option.      |
+| Pushed files         | The Daily README `push` job stages only `README.md`. It runs no npm code and no Git hooks.                                                           |
+| Actions              | Each action is pinned to a full commit SHA with the version in a comment.                                                                            |
+| Trigger events       | No `pull_request_target`, `workflow_run`, `issue_comment`, pull request review, or discussion events.                                                |
+| Input handling       | Inputs go to scripts through environment variables, not through `${{ }}` in shell text.                                                              |
+| Dependency scripts   | `npm ci` uses `--ignore-scripts`, and `.npmrc` sets `ignore-scripts=true`. No dependency cache is used.                                              |
 
 Limits:
 
-- The Daily README job runs the code and the dependencies on `master` with a write token. A change on `master` is trusted. Review changes before they reach `master`.
+- The `generate` job runs the code and the dependencies on `master`. They can change the content of `README.md`, but they cannot get the write token. A change on `master` is trusted. Review changes before they reach `master`.
 - Commits made with `GITHUB_TOKEN` do not start other workflows. The daily commit does not start Tests, Secrets, or CodeQL.
 - GitHub-hosted runners, the pinned actions, and the locked development dependencies are trusted. The `min-release-age` setting in `.npmrc` delays new dependency versions.
 
