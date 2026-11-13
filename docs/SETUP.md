@@ -35,6 +35,22 @@ The workflow pushes a commit directly to `master` with the `GITHUB_TOKEN`.
 - **Dependabot alerts**: enable them in **Settings → Advanced Security**. Optionally also enable **Dependabot security updates**, which open a pull request only for a vulnerability.
 - **Local Git hooks**: run `npm ci --ignore-scripts` and `npm run hooks:install`. See [Git hooks](GIT_HOOKS.md).
 
+## WebStorm
+
+The project uses JetBrains WebStorm. The repository has no settings for other editors.
+
+1. Open the repository root in WebStorm.
+2. Open **Settings → Languages & Frameworks → Node.js**. Select the Node.js version from `.nvmrc`.
+3. Run `npm ci --ignore-scripts` in the terminal.
+4. Open **Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint**. Select **Automatic ESLint configuration**.
+
+WebStorm reads these settings from the repository:
+
+- `.editorconfig` sets the indent, line end, and final newline.
+- `.idea/prettier.xml` uses the project Prettier and runs it when you save a file.
+
+Other files in `.idea/` are personal settings. Git ignores them.
+
 ## Schedule notes
 
 - The schedule is `3 9,10 * * *` in UTC. The `gate` job lets only the start at 11:03 in Amsterdam (or later) continue, one time each day. Thus daylight saving time needs no change.
