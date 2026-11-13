@@ -24,9 +24,8 @@ __temp*
 *.tgz
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+.idea/*
+!.idea/prettier.xml
 .DS_Store
 *.suo
 *.ntvs*

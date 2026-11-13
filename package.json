@@ -1,6 +1,6 @@
 {
   "name": "cyberpunk-tarot-readme",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Generate README.md with a daily Cyberpunk 2077 tarot card",
   "private": true,
   "type": "module",

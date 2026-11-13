@@ -105,6 +105,7 @@ Each placeholder has two forms: `<!-- tarot:name -->` and `{{tarot:name}}`. Use 
 - Read engines before execution. The root `.nvmrc` sets the Node.js version.
 - Prefer Node.js built-ins. Evaluate each added dependency's need, license, native binaries, and security impact.
 - Follow `.editorconfig`. Edit source, not generated output.
+- The project editor is JetBrains WebStorm. Give editor settings and instructions for WebStorm only. Do not add settings or instructions for other editors.
 - Install with `npm ci --ignore-scripts` and the lockfile. Keep exact versions in `package.json`.
 - Bump the package version once per iteration under SemVer with `npm version patch --no-git-tag-version --ignore-scripts`. Use `minor` or `major` when required.
 - Never edit version strings directly, repeat an iteration's bump, or create Git commits or tags through npm.
